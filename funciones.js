@@ -10,21 +10,52 @@ const sustancias = {
   plata: { fusion: 88300, vaporizacion: 2336000 },
   vapor: { fusion: null, vaporizacion: 2256000 }
 };
+document.getElementById("tipo").addEventListener("change", actualizarSubtipos);
+
+function actualizarSubtipos() {
+  const tipo = document.getElementById("tipo").value;
+  const contenedor = document.getElementById("subtipo-container");
+
+  let opcionesHTML = `<label for="subtipo">Tipo específico:</label><select id="subtipo">`;
+
+  if (tipo === "fusion") {
+    opcionesHTML += `
+      <option value="fusion">Fusión (sólido → líquido)</option>
+      <option value="solidificacion">Solidificación (líquido → sólido)</option>
+    `;
+  } else if (tipo === "vaporizacion") {
+    opcionesHTML += `
+      <option value="evaporacion">Evaporación (líquido → gas)</option>
+      <option value="condensacion">Condensación (gas → líquido)</option>
+    `;
+  }
+
+  opcionesHTML += `</select>`;
+  contenedor.innerHTML = opcionesHTML;
+}
+
+// Ejecutar al cargar para mostrar el subtipo correcto desde el inicio
+actualizarSubtipos();
 
 function calcular() {
+  const subtipo = document.getElementById("subtipo")?.value;
   const nombre = document.getElementById("sustancia").value;
   const masa = parseFloat(document.getElementById("masa").value);
   const tipo = document.getElementById("tipo").value;
-  const direccion = document.getElementById("direccion").value;
-
+ let direccion = "";
+ if (subtipo === "fusion" || subtipo === "evaporacion") {
+   direccion = "absorber";
+ } else if (subtipo === "solidificacion" || subtipo === "condensacion") {
+   direccion = "liberar";
+ }
   const datos = sustancias[nombre];
   const L = tipo === "fusion" ? datos.fusion : datos.vaporizacion;
 
   const resultadoDiv = document.getElementById("resultado");
   resultadoDiv.className = "";
 
-  if (!L) {
-    resultadoDiv.textContent = "No hay datos disponibles para este cambio de fase.";
+  if (!L || isNaN(masa)) {
+    resultadoDiv.textContent = "Por favor ingresa todos los datos correctamente.";
     resultadoDiv.style.display = "block";
     return;
   }
@@ -34,9 +65,9 @@ function calcular() {
   if (direccion === "liberar") {
     Q *= -1; // cambia signo si está liberando calor
   }
+    resultadoDiv.textContent = `Durante la ${subtipo}, el calor ${direccion === "absorber" ? "absorbido" : "liberado"} fue de ${Q.toLocaleString()} J.`;
 
-  resultadoDiv.textContent = `Calor ${direccion === "absorber" ? "absorbido" : "liberado"}: ${Q.toLocaleString()} J`;
-  resultadoDiv.classList.add(tipo);
+  if (subtipo) resultadoDiv.classList.add(subtipo);
 
   // Reiniciar animación
   resultadoDiv.style.animation = "none";

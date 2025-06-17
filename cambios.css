@@ -49,6 +49,7 @@ button:hover {
   font-size: 18px;
   border-radius: 6px;
   display: none; /* Oculto hasta mostrar resultado */
+  animation: fadenIn 1s ease-out;
 }
 
 /* Estilos según tipo */
@@ -63,6 +64,23 @@ button:hover {
   border-left: 6px solid #cc0000;
   color: #660000;
 }
+.evaporacion {
+  background-color: #ffe6e6;
+  border-left: 6px solid #cc0000;
+  color: #990000;
+}
+
+.condensacion {
+  background-color: #e6f2ff;
+  border-left: 6px solid #0066cc;
+  color: #003366;
+}
+
+.solidificacion {
+  background-color: #f0f0f0;
+  border-left: 6px solid #666666;
+  color: #333333;
+}
 
 @keyframes fadeIn {
   from {
@@ -73,8 +91,4 @@ button:hover {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-#resultado {
-  animation: fadeIn 1s ease-out;
 }

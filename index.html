@@ -6,7 +6,7 @@
  <link rel="stylesheet" href="./cambios.css">
 </head>
 <body>
-  <h1>Calor En Cambio De Fase</h1>
+  <h1>Calor Latente En Cambio De Fase</h1>
 
   <label for="sustancia">Sustancia:</label>
   <select id="sustancia">
@@ -30,11 +30,7 @@
     <option value="fusion">Fusión</option>
     <option value="vaporizacion">Vaporización</option>
   </select>
-  <label for="direccion">¿Qué va a hacer la sustancia?</label>
-  <select id="direccion">
-    <option value="absorber">Absorber calor </option>
-    <option value="liberar">Liberar calor </option>
-  </select>
+  <div id="subtipo-container" style="margin-top: 10px;"></div>
 
   <button onclick="calcular()">Calcular Calor (Q)</button>
 
